@@ -17,13 +17,20 @@ namespace BestBuyCRUDdata
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            string ConnString = config.GetConnectionString("DefaultConnection");
+            string connString = config.GetConnectionString("DefaultConnection");
 
-            IDbConnection connection = new MySqlConnection(ConnString);
+            IDbConnection connection = new MySqlConnection(connString);
 
-            var repo = new DapperProductRepository(connection);
+            var repo = new DapperDepartmentRepository(connection);
+            var departments = repo.GetAllDepartments();
+            foreach (var dept in departments)
+            {
+                Console.WriteLine($"{dept.DepartmentId} {dept.Name}");
+            }
 
-            var products = repo.GetAllProducts();
+            var rep = new DapperProductRepository(connection);
+
+            var products = rep.GetAllProducts();
 
             foreach(var prod in products)
             {
